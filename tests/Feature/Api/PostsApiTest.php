@@ -240,11 +240,4 @@ class PostsApiTest extends TestCase
 
         $response->assertStatus(401);
     }
-
-    protected function createUser()
-    {
-        $userModel = config('auth.providers.users.model');
-
-        return $userModel::factory()->create();
-    }
 }
