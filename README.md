@@ -67,8 +67,8 @@
 ## 📋 Requirements
 
 - **PHP**: ^8.2
-- **Laravel**: ^10.47 | ^11.0 | ^12.0
-- **Mixpost**: ^1.0
+- **Laravel**: ^10.47 | ^11.0
+- **Mixpost**: ^1.0 (installed automatically as dev dependency)
 - **Laravel Sanctum**: ^3.0 | ^4.0
 
 ---
