@@ -1,5 +1,5 @@
 <?php
 
-use Inovector\MixpostApi\Tests\TestCase;
+use Btafoya\MixpostApi\Tests\TestCase;
 
 uses(TestCase::class)->in('Feature');

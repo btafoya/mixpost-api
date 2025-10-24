@@ -12,3 +12,6 @@ composer.lock
 .env
 .env.backup
 .phpunit.cache
+.serena
+claudedocs
+CLAUDE.md
