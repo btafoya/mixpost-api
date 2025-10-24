@@ -1,8 +1,8 @@
 <?php
 
-namespace Inovector\MixpostApi\Tests\Feature;
+namespace Btafoya\MixpostApi\Tests\Feature;
 
-use Inovector\MixpostApi\Tests\TestCase;
+use Btafoya\MixpostApi\Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
@@ -218,13 +218,5 @@ class AuthenticationTest extends TestCase
         $response = $this->getJson('/api/mixpost/health');
 
         $response->assertStatus(401);
-    }
-
-    /**
-     * Helper method to make authenticated requests with a token.
-     */
-    public function withToken(string $token): self
-    {
-        return $this->withHeader('Authorization', "Bearer {$token}");
     }
 }

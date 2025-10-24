@@ -1,12 +1,12 @@
 <?php
 
-namespace Inovector\MixpostApi\Http\Controllers\Api;
+namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Inovector\MixpostApi\Http\Requests\CreateTokenRequest;
+use Btafoya\MixpostApi\Http\Requests\CreateTokenRequest;
 
 class TokenController extends ApiController
 {
