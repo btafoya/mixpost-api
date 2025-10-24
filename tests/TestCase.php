@@ -1,9 +1,9 @@
 <?php
 
-namespace Inovector\MixpostApi\Tests;
+namespace Btafoya\MixpostApi\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inovector\MixpostApi\Providers\MixpostApiServiceProvider;
+use Btafoya\MixpostApi\Providers\MixpostApiServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -16,6 +16,8 @@ abstract class TestCase extends Orchestra
 
         // Run migrations
         $this->loadLaravelMigrations();
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/inovector/mixpost/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/laravel/sanctum/database/migrations');
     }
 
     /**
@@ -24,6 +26,8 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
+            \Laravel\Sanctum\SanctumServiceProvider::class,
+            \Inovector\Mixpost\MixpostServiceProvider::class,
             MixpostApiServiceProvider::class,
         ];
     }
@@ -43,11 +47,24 @@ abstract class TestCase extends Orchestra
 
         // Set Mixpost configuration
         $app['config']->set('mixpost.user_model', \Illuminate\Foundation\Auth\User::class);
+        $app['config']->set('mixpost.disk', 'public');
+        $app['config']->set('mixpost.max_file_size', 102400);
+
+        // Set filesystem disks
+        $app['config']->set('filesystems.disks.public', [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ]);
 
         // Set API configuration
         $app['config']->set('mixpost-api.prefix', 'api/mixpost');
         $app['config']->set('mixpost-api.rate_limit.enabled', false); // Disable rate limiting for tests
         $app['config']->set('mixpost-api.security.https_only', false); // Disable HTTPS requirement for tests
+
+        // Set Sanctum configuration
+        $app['config']->set('sanctum.stateful', []);
     }
 
     /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace Inovector\MixpostApi\Providers;
+namespace Btafoya\MixpostApi\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Inovector\MixpostApi\Http\Middleware\EnforceHttps;
-use Inovector\MixpostApi\Http\Middleware\ValidateApiToken;
+use Btafoya\MixpostApi\Http\Middleware\EnforceHttps;
+use Btafoya\MixpostApi\Http\Middleware\ValidateApiToken;
 
 class MixpostApiServiceProvider extends ServiceProvider
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Inovector\MixpostApi\Http\Middleware;
+namespace Btafoya\MixpostApi\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Inovector\MixpostApi\Http\Controllers\Api;
+namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -55,7 +55,7 @@ class ApiController extends Controller
             'message' => $message,
         ];
 
-        if (! empty($errors)) {
+        if (!empty($errors)) {
             $response['errors'] = $errors;
         }
 

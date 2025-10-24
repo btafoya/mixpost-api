@@ -1,6 +1,6 @@
 <?php
 
-namespace Inovector\MixpostApi\Http\Requests;
+namespace Btafoya\MixpostApi\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

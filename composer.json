@@ -1,5 +1,5 @@
 {
-  "name": "inovector/mixpost-api",
+  "name": "btafoya/mixpost-api",
   "description": "REST API add-on for Mixpost - enables n8n and external integrations",
   "keywords": [
     "mixpost",
@@ -36,12 +36,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Inovector\\MixpostApi\\": "src/"
+      "Btafoya\\MixpostApi\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Inovector\\MixpostApi\\Tests\\": "tests/"
+      "Btafoya\\MixpostApi\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -58,7 +58,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Inovector\\MixpostApi\\Providers\\MixpostApiServiceProvider"
+        "Btafoya\\MixpostApi\\Providers\\MixpostApiServiceProvider"
       ]
     }
   },
