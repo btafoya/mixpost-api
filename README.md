@@ -34,15 +34,18 @@
 
 ## ✨ Features
 
-### 🚀 Complete API Coverage
+### 🚀 API Coverage (v1.0.0)
 
 - ✅ **Posts Management**: Full CRUD operations, scheduling, and publishing
 - ✅ **Media Handling**: Upload files, download from URLs, manage library
 - ✅ **Account Management**: List and manage social media accounts
 - ✅ **Tags & Organization**: Create, update, delete tags
-- ✅ **Analytics & Reports**: Dashboard metrics, account stats, post performance
-- ✅ **Calendar Integration**: View and manage scheduled content
-- ✅ **System Monitoring**: Check status, queue health, service configuration
+
+### 🔮 Planned Features (Future Releases)
+
+- 📅 **Analytics & Reports**: Dashboard metrics, account stats, post performance
+- 📅 **Calendar Integration**: View and manage scheduled content
+- 📅 **System Monitoring**: Check status, queue health, service configuration
 
 ### 🔐 Security & Performance
 
@@ -253,27 +256,27 @@ curl -X POST https://your-domain.com/api/mixpost/posts \
 ### Posts
 - `GET /api/mixpost/posts` - List posts (with filtering & pagination)
 - `POST /api/mixpost/posts` - Create post
-- `GET /api/mixpost/posts/{uuid}` - Get post details
-- `PUT /api/mixpost/posts/{uuid}` - Update post
-- `DELETE /api/mixpost/posts/{uuid}` - Delete post
-- `POST /api/mixpost/posts/{uuid}/schedule` - Schedule post
-- `POST /api/mixpost/posts/{uuid}/publish` - Publish immediately
-- `POST /api/mixpost/posts/{uuid}/duplicate` - Duplicate post
+- `GET /api/mixpost/posts/{id}` - Get post details
+- `PUT /api/mixpost/posts/{id}` - Update post
+- `DELETE /api/mixpost/posts/{id}` - Delete post
+- `POST /api/mixpost/posts/{id}/schedule` - Schedule post
+- `POST /api/mixpost/posts/{id}/publish` - Publish immediately
+- `POST /api/mixpost/posts/{id}/duplicate` - Duplicate post
 - `DELETE /api/mixpost/posts` - Bulk delete posts
 
 ### Media
 - `GET /api/mixpost/media` - List media files
 - `POST /api/mixpost/media` - Upload media file
 - `POST /api/mixpost/media/download` - Download from URL
-- `GET /api/mixpost/media/{uuid}` - Get media details
-- `DELETE /api/mixpost/media/{uuid}` - Delete media file
+- `GET /api/mixpost/media/{id}` - Get media details
+- `DELETE /api/mixpost/media/{id}` - Delete media file
 - `DELETE /api/mixpost/media` - Bulk delete media
 
 ### Accounts
 - `GET /api/mixpost/accounts` - List social media accounts
-- `GET /api/mixpost/accounts/{uuid}` - Get account details
-- `PUT /api/mixpost/accounts/{uuid}` - Update account
-- `DELETE /api/mixpost/accounts/{uuid}` - Delete account
+- `GET /api/mixpost/accounts/{id}` - Get account details
+- `PUT /api/mixpost/accounts/{id}` - Update account
+- `DELETE /api/mixpost/accounts/{id}` - Delete account
 
 ### Tags
 - `GET /api/mixpost/tags` - List tags
@@ -281,18 +284,20 @@ curl -X POST https://your-domain.com/api/mixpost/posts \
 - `PUT /api/mixpost/tags/{id}` - Update tag
 - `DELETE /api/mixpost/tags/{id}` - Delete tag
 
-### Reports & Analytics
-- `GET /api/mixpost/reports/dashboard` - Dashboard summary
-- `GET /api/mixpost/reports/accounts/{uuid}` - Account analytics
-- `GET /api/mixpost/reports/posts/{uuid}` - Post performance
+**📖 Full API Documentation:** [API_SPECIFICATION.md](./docs/API_SPECIFICATION.md)
 
-### Calendar
+### Planned Endpoints (Future Releases)
+
+**Reports & Analytics**
+- `GET /api/mixpost/reports/dashboard` - Dashboard summary
+- `GET /api/mixpost/reports/accounts/{id}` - Account analytics
+- `GET /api/mixpost/reports/posts/{id}` - Post performance
+
+**Calendar**
 - `GET /api/mixpost/calendar` - Get scheduled posts
 
-### System
+**System Monitoring**
 - `GET /api/mixpost/system/status` - System health check
-
-**📖 Full API Documentation:** [API_SPECIFICATION.md](./docs/API_SPECIFICATION.md)
 
 ---
 
