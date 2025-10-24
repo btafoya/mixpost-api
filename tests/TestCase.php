@@ -14,6 +14,9 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
+        // Disable mass assignment protection for tests
+        \Illuminate\Database\Eloquent\Model::unguard();
+
         // Run migrations
         $this->loadLaravelMigrations();
         $this->loadMigrationsFrom(__DIR__.'/../vendor/inovector/mixpost/database/migrations');
