@@ -49,7 +49,7 @@ abstract class TestCase extends Orchestra
         ]);
 
         // Set Mixpost configuration
-        $app['config']->set('mixpost.user_model', \Illuminate\Foundation\Auth\User::class);
+        $app['config']->set('mixpost.user_model', \Btafoya\MixpostApi\Tests\Support\User::class);
         $app['config']->set('mixpost.disk', 'public');
         $app['config']->set('mixpost.max_file_size', 102400);
 
@@ -73,7 +73,7 @@ abstract class TestCase extends Orchestra
     /**
      * Create a test user.
      */
-    protected function createUser(array $attributes = []): \Illuminate\Foundation\Auth\User
+    protected function createUser(array $attributes = []): \Btafoya\MixpostApi\Tests\Support\User
     {
         $userModel = config('mixpost.user_model');
 
@@ -87,7 +87,7 @@ abstract class TestCase extends Orchestra
     /**
      * Create an API token for a user.
      */
-    protected function createToken(\Illuminate\Foundation\Auth\User $user, string $name = 'test-token', array $abilities = ['*']): string
+    protected function createToken(\Btafoya\MixpostApi\Tests\Support\User $user, string $name = 'test-token', array $abilities = ['*']): string
     {
         return $user->createToken($name, $abilities)->plainTextToken;
     }
