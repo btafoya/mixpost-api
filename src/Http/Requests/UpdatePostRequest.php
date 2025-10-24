@@ -36,7 +36,7 @@ class UpdatePostRequest extends UpdatePost
     public function handle(): Post
     {
         DB::transaction(function () {
-            if (empty($this->input('accounts')) || !$this->scheduledAt()) {
+            if (empty($this->input('accounts')) || ! $this->scheduledAt()) {
                 $this->post->setDraft();
             }
 

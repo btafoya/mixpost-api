@@ -18,7 +18,7 @@ class StorePostRequest extends StorePost
         return DB::transaction(function () {
             $record = Post::create([
                 'status' => PostStatus::DRAFT,
-                'scheduled_at' => $this->scheduledAt() ? Util::convertTimeToUTC($this->scheduledAt()) : null
+                'scheduled_at' => $this->scheduledAt() ? Util::convertTimeToUTC($this->scheduledAt()) : null,
             ]);
 
             $record->accounts()->attach($this->input('accounts', []));
