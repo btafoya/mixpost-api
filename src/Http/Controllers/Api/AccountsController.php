@@ -20,11 +20,11 @@ class AccountsController extends ApiController
     }
 
     /**
-     * Get a single account by UUID
+     * Get a single account by ID
      */
-    public function show(string $uuid): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $account = Account::firstOrFailByUuid($uuid);
+        $account = Account::findOrFail($id);
 
         return (new AccountResource($account))->response();
     }
@@ -32,13 +32,13 @@ class AccountsController extends ApiController
     /**
      * Update an account
      */
-    public function update(Request $request, string $uuid): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $request->validate([
             'name' => 'sometimes|string|max:255',
         ]);
 
-        $account = Account::firstOrFailByUuid($uuid);
+        $account = Account::findOrFail($id);
 
         if ($request->has('name')) {
             $account->update([
@@ -54,9 +54,9 @@ class AccountsController extends ApiController
     /**
      * Delete an account
      */
-    public function destroy(string $uuid): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $account = Account::firstOrFailByUuid($uuid);
+        $account = Account::findOrFail($id);
 
         $account->delete();
 

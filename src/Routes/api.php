@@ -1,5 +1,9 @@
 <?php
 
+use Btafoya\MixpostApi\Http\Controllers\Api\AccountsController;
+use Btafoya\MixpostApi\Http\Controllers\Api\MediaController;
+use Btafoya\MixpostApi\Http\Controllers\Api\PostsController;
+use Btafoya\MixpostApi\Http\Controllers\Api\TagsController;
 use Btafoya\MixpostApi\Http\Controllers\Api\TokenController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 | automatically prefixed with the configured API prefix (default: api/mixpost)
 |
 */
+
+// Debug route to verify routing is working
+Route::any('debug-route', function () {
+    return response()->json(['message' => 'Routes are loading correctly']);
+});
 
 // Apply HTTPS middleware to all routes
 Route::middleware(['mixpost.https'])->group(function () {
@@ -28,7 +37,7 @@ Route::middleware(['mixpost.https'])->group(function () {
     });
 
     // Protected API Routes
-    Route::middleware(['auth:sanctum', 'mixpost.token', 'throttle:api'])->group(function () {
+    Route::middleware(['auth:sanctum', 'mixpost.token'])->group(function () {
         // Health check endpoint
         Route::get('health', function () {
             return response()->json([
@@ -40,41 +49,39 @@ Route::middleware(['mixpost.https'])->group(function () {
 
         // Posts API
         Route::prefix('posts')->name('posts.')->group(function () {
-            Route::get('/', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'index'])->name('index');
-            Route::post('/', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'store'])->name('store');
-            Route::delete('/', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'bulkDestroy'])->name('bulk-destroy');
-            Route::get('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'show'])->name('show');
-            Route::put('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'update'])->name('update');
-            Route::delete('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'destroy'])->name('destroy');
-            Route::post('{uuid}/schedule', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'schedule'])->name('schedule');
-            Route::post('{uuid}/publish', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'publish'])->name('publish');
-            Route::post('{uuid}/duplicate', [\Btafoya\MixpostApi\Http\Controllers\Api\PostsController::class, 'duplicate'])->name('duplicate');
+            Route::get('/', [PostsController::class, 'index'])->name('index');
+            Route::post('/', [PostsController::class, 'store'])->name('store');
+            Route::delete('/', [PostsController::class, 'bulkDestroy'])->name('bulk-destroy');
+            Route::get('/{id}', [PostsController::class, 'show'])->name('show');
+            Route::put('/{id}', [PostsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [PostsController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/schedule', [PostsController::class, 'schedule'])->name('schedule');
+            Route::post('/{id}/publish', [PostsController::class, 'publish'])->name('publish');
+            Route::post('/{id}/duplicate', [PostsController::class, 'duplicate'])->name('duplicate');
         });
 
         // Media API
         Route::prefix('media')->name('media.')->group(function () {
-            Route::get('/', [\Btafoya\MixpostApi\Http\Controllers\Api\MediaController::class, 'index'])->name('index');
-            Route::post('/', [\Btafoya\MixpostApi\Http\Controllers\Api\MediaController::class, 'store'])->name('store');
-            Route::post('/download', [\Btafoya\MixpostApi\Http\Controllers\Api\MediaController::class, 'download'])->name('download');
-            Route::delete('/', [\Btafoya\MixpostApi\Http\Controllers\Api\MediaController::class, 'bulkDestroy'])->name('bulk-destroy');
-            Route::get('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\MediaController::class, 'show'])->name('show');
-            Route::delete('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\MediaController::class, 'destroy'])->name('destroy');
+            Route::get('/', [MediaController::class, 'index'])->name('index');
+            Route::post('/', [MediaController::class, 'store'])->name('store');
+            Route::post('/download', [MediaController::class, 'download'])->name('download');
+            Route::delete('/', [MediaController::class, 'bulkDestroy'])->name('bulk-destroy');
+            Route::get('/{id}', [MediaController::class, 'show'])->name('show');
+            Route::delete('/{id}', [MediaController::class, 'destroy'])->name('destroy');
         });
 
         // Accounts API
-        Route::prefix('accounts')->name('accounts.')->group(function () {
-            Route::get('/', [\Btafoya\MixpostApi\Http\Controllers\Api\AccountsController::class, 'index'])->name('index');
-            Route::get('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\AccountsController::class, 'show'])->name('show');
-            Route::put('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\AccountsController::class, 'update'])->name('update');
-            Route::delete('{uuid}', [\Btafoya\MixpostApi\Http\Controllers\Api\AccountsController::class, 'destroy'])->name('destroy');
-        });
+        Route::get('/accounts', [AccountsController::class, 'index'])->name('accounts.index');
+        Route::get('/accounts/{id}', [AccountsController::class, 'show'])->name('accounts.show');
+        Route::put('/accounts/{id}', [AccountsController::class, 'update'])->name('accounts.update');
+        Route::delete('/accounts/{id}', [AccountsController::class, 'destroy'])->name('accounts.destroy');
 
         // Tags API
         Route::prefix('tags')->name('tags.')->group(function () {
-            Route::get('/', [\Btafoya\MixpostApi\Http\Controllers\Api\TagsController::class, 'index'])->name('index');
-            Route::post('/', [\Btafoya\MixpostApi\Http\Controllers\Api\TagsController::class, 'store'])->name('store');
-            Route::put('{id}', [\Btafoya\MixpostApi\Http\Controllers\Api\TagsController::class, 'update'])->name('update');
-            Route::delete('{id}', [\Btafoya\MixpostApi\Http\Controllers\Api\TagsController::class, 'destroy'])->name('destroy');
+            Route::get('/', [TagsController::class, 'index'])->name('index');
+            Route::post('/', [TagsController::class, 'store'])->name('store');
+            Route::put('/{id}', [TagsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [TagsController::class, 'destroy'])->name('destroy');
         });
 
         // Phase 3 routes (Reports, Calendar, System) will be added later

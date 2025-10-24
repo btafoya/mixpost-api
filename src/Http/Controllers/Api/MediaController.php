@@ -40,9 +40,9 @@ class MediaController extends ApiController
     /**
      * Get a single media item by UUID
      */
-    public function show(string $uuid): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $media = Media::firstOrFailByUuid($uuid);
+        $media = Media::findOrFail($id);
 
         return (new MediaResource($media))->response();
     }
@@ -139,9 +139,9 @@ class MediaController extends ApiController
     /**
      * Delete a media item
      */
-    public function destroy(string $uuid): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $media = Media::firstOrFailByUuid($uuid);
+        $media = Media::findOrFail($id);
 
         // Delete files from storage
         $media->deleteFiles();

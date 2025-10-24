@@ -64,7 +64,7 @@ class AccountsApiTest extends TestCase
             'name' => 'Original Name',
         ]);
 
-        $response = $this->putJson("/api/mixpost/accounts/{$account->uuid}", [
+        $response = $this->putJson("/api/mixpost/accounts/{$account->id}", [
             'name' => 'Updated Name',
         ]);
 
@@ -82,7 +82,7 @@ class AccountsApiTest extends TestCase
     {
         $account = Account::factory()->create();
 
-        $response = $this->deleteJson("/api/mixpost/accounts/{$account->uuid}");
+        $response = $this->deleteJson("/api/mixpost/accounts/{$account->id}");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Account deleted successfully']);
@@ -95,9 +95,12 @@ class AccountsApiTest extends TestCase
     /** @test */
     public function it_requires_authentication()
     {
-        Sanctum::actingAs(null);
+        // Don't set any authentication - test as unauthenticated user
+        // Remove the setUp authentication by creating a fresh test instance without auth
+        $this->app->forgetInstance('auth');
 
-        $response = $this->getJson('/api/mixpost/accounts');
+        $response = $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class)
+            ->getJson('/api/mixpost/accounts');
 
         $response->assertStatus(401);
     }

@@ -111,7 +111,8 @@ class TagsApiTest extends TestCase
     /** @test */
     public function it_requires_authentication()
     {
-        Sanctum::actingAs(null);
+        // Test unauthenticated access - dont set user
+        $this->app->forgetInstance('auth');
 
         $response = $this->getJson('/api/mixpost/tags');
 

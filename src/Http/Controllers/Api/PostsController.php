@@ -35,10 +35,10 @@ class PostsController extends ApiController
     /**
      * Get a single post by UUID
      */
-    public function show(string $uuid): JsonResponse
+    public function show(int $id): JsonResponse
     {
         $post = Post::with(['accounts', 'versions', 'tags'])
-            ->firstOrFailByUuid($uuid);
+            ->findOrFail($id);
 
         return (new PostResource($post))->response();
     }
@@ -60,9 +60,9 @@ class PostsController extends ApiController
     /**
      * Update an existing post
      */
-    public function update(UpdatePost $request, string $uuid): JsonResponse
+    public function update(UpdatePost $request, int $id): JsonResponse
     {
-        $post = Post::firstOrFailByUuid($uuid);
+        $post = Post::findOrFail($id);
 
         // Set the post on the request for validation
         $request->post = $post;
@@ -78,9 +78,9 @@ class PostsController extends ApiController
     /**
      * Delete a post
      */
-    public function destroy(string $uuid): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $post = Post::firstOrFailByUuid($uuid);
+        $post = Post::findOrFail($id);
 
         if ($post->isInHistory()) {
             return response()->json([
@@ -104,7 +104,7 @@ class PostsController extends ApiController
     /**
      * Schedule a post for future publishing
      */
-    public function schedule(Request $request, string $uuid): JsonResponse
+    public function schedule(Request $request, int $id): JsonResponse
     {
         $request->validate([
             'date' => 'required|date|date_format:Y-m-d',
@@ -112,7 +112,7 @@ class PostsController extends ApiController
         ]);
 
         $post = Post::with(['accounts', 'versions', 'tags'])
-            ->firstOrFailByUuid($uuid);
+            ->findOrFail($id);
 
         if ($post->isInHistory()) {
             return response()->json([
@@ -137,10 +137,10 @@ class PostsController extends ApiController
     /**
      * Publish a post immediately (schedule for 30 seconds from now)
      */
-    public function publish(string $uuid): JsonResponse
+    public function publish(int $id): JsonResponse
     {
         $post = Post::with(['accounts', 'versions', 'tags'])
-            ->firstOrFailByUuid($uuid);
+            ->findOrFail($id);
 
         if ($post->isInHistory()) {
             return response()->json([
@@ -171,10 +171,10 @@ class PostsController extends ApiController
     /**
      * Duplicate an existing post
      */
-    public function duplicate(string $uuid): JsonResponse
+    public function duplicate(int $id): JsonResponse
     {
         $post = Post::with(['accounts', 'versions', 'tags'])
-            ->firstOrFailByUuid($uuid);
+            ->findOrFail($id);
 
         $newPost = Post::create([
             'status' => PostStatus::DRAFT,
@@ -185,9 +185,9 @@ class PostsController extends ApiController
         $newPost->accounts()->attach($post->accounts->pluck('id'));
         $newPost->tags()->attach($post->tags->pluck('id'));
 
-        // Copy versions
+        // Copy versions (only those with account_id set)
         $newPost->versions()->createMany(
-            $post->versions->map(fn ($v) => [
+            $post->versions->filter(fn ($v) => $v->account_id !== null)->map(fn ($v) => [
                 'account_id' => $v->account_id,
                 'is_original' => $v->is_original,
                 'content' => $v->content,
@@ -209,10 +209,10 @@ class PostsController extends ApiController
     {
         $request->validate([
             'posts' => 'required|array|min:1',
-            'posts.*' => 'required|string',
+            'posts.*' => 'required|integer',
         ]);
 
-        $posts = Post::whereIn('uuid', $request->posts)
+        $posts = Post::whereIn('id', $request->posts)
             ->where(function ($query) {
                 $query->whereNotIn('status', [PostStatus::PUBLISHED->value, PostStatus::FAILED->value])
                     ->orWhereNull('status');

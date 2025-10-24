@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <a href="https://packagist.org/packages/inovector/mixpost-api"><img src="https://img.shields.io/packagist/v/inovector/mixpost-api.svg?style=flat-square" alt="Latest Version on Packagist"></a>
-  <a href="https://github.com/yourusername/mixpost-api/actions"><img src="https://img.shields.io/github/actions/workflow/status/yourusername/mixpost-api/tests.yml?branch=main&label=tests&style=flat-square" alt="GitHub Tests Action Status"></a>
-  <a href="https://packagist.org/packages/inovector/mixpost-api"><img src="https://img.shields.io/packagist/dt/inovector/mixpost-api.svg?style=flat-square" alt="Total Downloads"></a>
-  <a href="https://github.com/yourusername/mixpost-api/blob/main/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="License"></a>
+  <a href="https://packagist.org/packages/btafoya/mixpost-api"><img src="https://img.shields.io/packagist/v/btafoya/mixpost-api.svg?style=flat-square" alt="Latest Version on Packagist"></a>
+  <a href="https://github.com/btafoya/mixpost-api/actions"><img src="https://img.shields.io/github/actions/workflow/status/btafoya/mixpost-api/tests.yml?branch=main&label=tests&style=flat-square" alt="GitHub Tests Action Status"></a>
+  <a href="https://packagist.org/packages/btafoya/mixpost-api"><img src="https://img.shields.io/packagist/dt/btafoya/mixpost-api.svg?style=flat-square" alt="Total Downloads"></a>
+  <a href="https://github.com/btafoya/mixpost-api/blob/main/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="License"></a>
 </p>
 
 ---

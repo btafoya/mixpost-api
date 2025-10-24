@@ -53,11 +53,11 @@ class MediaApiTest extends TestCase
     {
         $media = Media::factory()->create();
 
-        $response = $this->getJson("/api/mixpost/media/{$media->uuid}");
+        $response = $this->getJson("/api/mixpost/media/{$media->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'uuid' => $media->uuid,
+                'id' => $media->id,
             ]);
     }
 
@@ -97,7 +97,7 @@ class MediaApiTest extends TestCase
     {
         $media = Media::factory()->create();
 
-        $response = $this->deleteJson("/api/mixpost/media/{$media->uuid}");
+        $response = $this->deleteJson("/api/mixpost/media/{$media->id}");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Media deleted successfully']);
@@ -113,7 +113,7 @@ class MediaApiTest extends TestCase
         $media = Media::factory()->count(3)->create();
 
         $response = $this->deleteJson('/api/mixpost/media', [
-            'media' => $media->pluck('uuid')->toArray(),
+            'media' => $media->pluck('id')->toArray(),
         ]);
 
         $response->assertStatus(200)
@@ -137,7 +137,8 @@ class MediaApiTest extends TestCase
     /** @test */
     public function it_requires_authentication()
     {
-        Sanctum::actingAs(null);
+        // Test unauthenticated access - dont set user
+        $this->app->forgetInstance('auth');
 
         $response = $this->getJson('/api/mixpost/media');
 

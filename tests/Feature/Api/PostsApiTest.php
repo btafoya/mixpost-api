@@ -54,11 +54,11 @@ class PostsApiTest extends TestCase
     {
         $post = Post::factory()->create();
 
-        $response = $this->getJson("/api/mixpost/posts/{$post->uuid}");
+        $response = $this->getJson("/api/mixpost/posts/{$post->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'uuid' => $post->uuid,
+                'uuid' => $post->id,
             ]);
     }
 
@@ -100,7 +100,7 @@ class PostsApiTest extends TestCase
         $post = Post::factory()->create();
         $account = Account::factory()->create();
 
-        $response = $this->putJson("/api/mixpost/posts/{$post->uuid}", [
+        $response = $this->putJson("/api/mixpost/posts/{$post->id}", [
             'accounts' => [$account->id],
             'versions' => [
                 [
@@ -127,7 +127,7 @@ class PostsApiTest extends TestCase
             'status' => PostStatus::DRAFT,
         ]);
 
-        $response = $this->deleteJson("/api/mixpost/posts/{$post->uuid}");
+        $response = $this->deleteJson("/api/mixpost/posts/{$post->id}");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Post deleted successfully']);
@@ -144,7 +144,7 @@ class PostsApiTest extends TestCase
             'status' => PostStatus::PUBLISHED,
         ]);
 
-        $response = $this->deleteJson("/api/mixpost/posts/{$post->uuid}");
+        $response = $this->deleteJson("/api/mixpost/posts/{$post->id}");
 
         $response->assertStatus(422);
 
@@ -160,7 +160,7 @@ class PostsApiTest extends TestCase
             'status' => PostStatus::DRAFT,
         ]);
 
-        $response = $this->postJson("/api/mixpost/posts/{$post->uuid}/schedule", [
+        $response = $this->postJson("/api/mixpost/posts/{$post->id}/schedule", [
             'date' => now()->addDay()->format('Y-m-d'),
             'time' => '10:00',
         ]);
@@ -181,7 +181,7 @@ class PostsApiTest extends TestCase
         $account = Account::factory()->create();
         $post->accounts()->attach($account->id);
 
-        $response = $this->postJson("/api/mixpost/posts/{$post->uuid}/publish");
+        $response = $this->postJson("/api/mixpost/posts/{$post->id}/publish");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Post queued for immediate publishing']);
@@ -202,11 +202,11 @@ class PostsApiTest extends TestCase
         $post->tags()->attach($tag->id);
         $post->versions()->create([
             'is_original' => true,
-            'account_id' => null,
+            'account_id' => $account->id,
             'content' => [['body' => 'Test', 'media' => []]],
         ]);
 
-        $response = $this->postJson("/api/mixpost/posts/{$post->uuid}/duplicate");
+        $response = $this->postJson("/api/mixpost/posts/{$post->id}/duplicate");
 
         $response->assertStatus(201)
             ->assertJson(['message' => 'Post duplicated successfully']);
@@ -222,7 +222,7 @@ class PostsApiTest extends TestCase
         ]);
 
         $response = $this->deleteJson('/api/mixpost/posts', [
-            'posts' => $posts->pluck('uuid')->toArray(),
+            'posts' => $posts->pluck('id')->toArray(),
         ]);
 
         $response->assertStatus(200)
@@ -234,7 +234,8 @@ class PostsApiTest extends TestCase
     /** @test */
     public function it_requires_authentication()
     {
-        Sanctum::actingAs(null);
+        // Test unauthenticated access - dont set user
+        $this->app->forgetInstance('auth');
 
         $response = $this->getJson('/api/mixpost/posts');
 
