@@ -2,9 +2,9 @@
 
 namespace Btafoya\MixpostApi\Tests\Feature\Api;
 
+use Btafoya\MixpostApi\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inovector\Mixpost\Models\Account;
-use Btafoya\MixpostApi\Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
 class AccountsApiTest extends TestCase
@@ -38,7 +38,7 @@ class AccountsApiTest extends TestCase
                         'authorized',
                         'created_at',
                         'updated_at',
-                    ]
+                    ],
                 ],
             ]);
     }
@@ -100,11 +100,5 @@ class AccountsApiTest extends TestCase
         $response = $this->getJson('/api/mixpost/accounts');
 
         $response->assertStatus(401);
-    }
-
-    protected function createUser()
-    {
-        $userModel = config('auth.providers.users.model');
-        return $userModel::factory()->create();
     }
 }

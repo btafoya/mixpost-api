@@ -2,9 +2,9 @@
 
 namespace Btafoya\MixpostApi\Tests\Feature\Api;
 
+use Btafoya\MixpostApi\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inovector\Mixpost\Models\Tag;
-use Btafoya\MixpostApi\Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
 class TagsApiTest extends TestCase
@@ -35,7 +35,7 @@ class TagsApiTest extends TestCase
                         'hex_color',
                         'created_at',
                         'updated_at',
-                    ]
+                    ],
                 ],
             ]);
     }
@@ -51,7 +51,7 @@ class TagsApiTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'data' => ['id', 'name', 'hex_color'],
-                'message'
+                'message',
             ]);
 
         $this->assertDatabaseHas('mixpost_tags', [
@@ -121,6 +121,7 @@ class TagsApiTest extends TestCase
     protected function createUser()
     {
         $userModel = config('auth.providers.users.model');
+
         return $userModel::factory()->create();
     }
 }

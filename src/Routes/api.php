@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Btafoya\MixpostApi\Http\Controllers\Api\TokenController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

@@ -2,10 +2,10 @@
 
 namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
+use Btafoya\MixpostApi\Http\Resources\AccountResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inovector\Mixpost\Models\Account;
-use Btafoya\MixpostApi\Http\Resources\AccountResource;
 
 class AccountsController extends ApiController
 {
@@ -61,7 +61,7 @@ class AccountsController extends ApiController
         $account->delete();
 
         return response()->json([
-            'message' => 'Account deleted successfully'
+            'message' => 'Account deleted successfully',
         ]);
     }
 }

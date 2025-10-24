@@ -2,11 +2,11 @@
 
 namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
+use Btafoya\MixpostApi\Http\Requests\CreateTokenRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Btafoya\MixpostApi\Http\Requests\CreateTokenRequest;
 
 class TokenController extends ApiController
 {
@@ -104,6 +104,7 @@ class TokenController extends ApiController
             if (! $configExpiration) {
                 return null;
             }
+
             return now()->addMinutes($configExpiration);
         }
 

@@ -2,8 +2,8 @@
 
 namespace Btafoya\MixpostApi\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Btafoya\MixpostApi\Providers\MixpostApiServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -16,8 +16,8 @@ abstract class TestCase extends Orchestra
 
         // Run migrations
         $this->loadLaravelMigrations();
-        $this->loadMigrationsFrom(__DIR__ . '/../vendor/inovector/mixpost/database/migrations');
-        $this->loadMigrationsFrom(__DIR__ . '/../vendor/laravel/sanctum/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/inovector/mixpost/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/laravel/sanctum/database/migrations');
     }
 
     /**

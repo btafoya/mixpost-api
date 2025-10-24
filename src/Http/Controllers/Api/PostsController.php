@@ -2,6 +2,7 @@
 
 namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
+use Btafoya\MixpostApi\Http\Resources\PostResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inovector\Mixpost\Builders\PostQuery;
@@ -10,7 +11,6 @@ use Inovector\Mixpost\Http\Requests\StorePost;
 use Inovector\Mixpost\Http\Requests\UpdatePost;
 use Inovector\Mixpost\Models\Post;
 use Inovector\Mixpost\Util;
-use Btafoya\MixpostApi\Http\Resources\PostResource;
 
 class PostsController extends ApiController
 {
@@ -84,20 +84,20 @@ class PostsController extends ApiController
 
         if ($post->isInHistory()) {
             return response()->json([
-                'message' => 'Cannot delete posts that have already been published or failed'
+                'message' => 'Cannot delete posts that have already been published or failed',
             ], 422);
         }
 
         if ($post->isScheduleProcessing()) {
             return response()->json([
-                'message' => 'Cannot delete posts that are currently being published'
+                'message' => 'Cannot delete posts that are currently being published',
             ], 422);
         }
 
         $post->delete();
 
         return response()->json([
-            'message' => 'Post deleted successfully'
+            'message' => 'Post deleted successfully',
         ]);
     }
 
@@ -116,13 +116,13 @@ class PostsController extends ApiController
 
         if ($post->isInHistory()) {
             return response()->json([
-                'message' => 'Cannot schedule posts that have already been published or failed'
+                'message' => 'Cannot schedule posts that have already been published or failed',
             ], 422);
         }
 
         if ($post->isScheduleProcessing()) {
             return response()->json([
-                'message' => 'Cannot schedule posts that are currently being published'
+                'message' => 'Cannot schedule posts that are currently being published',
             ], 422);
         }
 
@@ -144,19 +144,19 @@ class PostsController extends ApiController
 
         if ($post->isInHistory()) {
             return response()->json([
-                'message' => 'Cannot publish posts that have already been published or failed'
+                'message' => 'Cannot publish posts that have already been published or failed',
             ], 422);
         }
 
         if ($post->isScheduleProcessing()) {
             return response()->json([
-                'message' => 'Cannot publish posts that are currently being published'
+                'message' => 'Cannot publish posts that are currently being published',
             ], 422);
         }
 
         if (! $post->accounts()->exists()) {
             return response()->json([
-                'message' => 'Cannot publish posts without any accounts'
+                'message' => 'Cannot publish posts without any accounts',
             ], 422);
         }
 
@@ -190,7 +190,7 @@ class PostsController extends ApiController
             $post->versions->map(fn ($v) => [
                 'account_id' => $v->account_id,
                 'is_original' => $v->is_original,
-                'content' => $v->content
+                'content' => $v->content,
             ])->toArray()
         );
 
@@ -229,7 +229,7 @@ class PostsController extends ApiController
         }
 
         return response()->json([
-            'message' => "{$deletedCount} posts deleted successfully"
+            'message' => "{$deletedCount} posts deleted successfully",
         ]);
     }
 }

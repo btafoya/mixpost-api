@@ -2,6 +2,7 @@
 
 namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
+use Btafoya\MixpostApi\Http\Resources\MediaResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -10,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use Inovector\Mixpost\Models\Media;
 use Inovector\Mixpost\Support\MediaConversions;
 use Inovector\Mixpost\Support\MediaUploader;
-use Btafoya\MixpostApi\Http\Resources\MediaResource;
 
 class MediaController extends ApiController
 {
@@ -53,7 +53,7 @@ class MediaController extends ApiController
     public function store(Request $request): JsonResponse
     {
         $request->validate([
-            'file' => 'required|file|mimes:jpg,jpeg,png,gif,webp,mp4,mov,avi|max:' . config('mixpost.max_file_size', 102400),
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif,webp,mp4,mov,avi|max:'.config('mixpost.max_file_size', 102400),
         ]);
 
         $file = $request->file('file');
@@ -84,14 +84,14 @@ class MediaController extends ApiController
 
             if (! $response->successful()) {
                 return response()->json([
-                    'message' => 'Failed to download file from URL'
+                    'message' => 'Failed to download file from URL',
                 ], 422);
             }
 
             // Get filename from URL or Content-Disposition header
             $filename = basename(parse_url($request->url, PHP_URL_PATH));
             if (empty($filename)) {
-                $filename = 'downloaded_' . time();
+                $filename = 'downloaded_'.time();
             }
 
             // Get mime type
@@ -100,11 +100,11 @@ class MediaController extends ApiController
             // Determine file extension
             $extension = $this->getExtensionFromMimeType($mimeType);
             if (! str_contains($filename, '.')) {
-                $filename .= '.' . $extension;
+                $filename .= '.'.$extension;
             }
 
             // Create temporary file
-            $tempPath = sys_get_temp_dir() . '/' . $filename;
+            $tempPath = sys_get_temp_dir().'/'.$filename;
             file_put_contents($tempPath, $response->body());
 
             // Create UploadedFile instance
@@ -131,7 +131,7 @@ class MediaController extends ApiController
                 ->setStatusCode(201);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Failed to download media: ' . $e->getMessage()
+                'message' => 'Failed to download media: '.$e->getMessage(),
             ], 422);
         }
     }
@@ -150,7 +150,7 @@ class MediaController extends ApiController
         $media->delete();
 
         return response()->json([
-            'message' => 'Media deleted successfully'
+            'message' => 'Media deleted successfully',
         ]);
     }
 
@@ -175,7 +175,7 @@ class MediaController extends ApiController
         }
 
         return response()->json([
-            'message' => "{$deletedCount} media files deleted successfully"
+            'message' => "{$deletedCount} media files deleted successfully",
         ]);
     }
 

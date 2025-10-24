@@ -2,11 +2,11 @@
 
 namespace Btafoya\MixpostApi\Tests\Feature\Api;
 
+use Btafoya\MixpostApi\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Inovector\Mixpost\Models\Media;
-use Btafoya\MixpostApi\Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
 class MediaApiTest extends TestCase
@@ -41,7 +41,7 @@ class MediaApiTest extends TestCase
                         'size',
                         'url',
                         'created_at',
-                    ]
+                    ],
                 ],
                 'links',
                 'meta',
@@ -73,7 +73,7 @@ class MediaApiTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'data' => ['id', 'uuid', 'name'],
-                'message'
+                'message',
             ]);
 
         $this->assertDatabaseHas('mixpost_media', [
@@ -147,6 +147,7 @@ class MediaApiTest extends TestCase
     protected function createUser()
     {
         $userModel = config('auth.providers.users.model');
+
         return $userModel::factory()->create();
     }
 }

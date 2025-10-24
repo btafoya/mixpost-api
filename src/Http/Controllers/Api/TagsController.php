@@ -2,10 +2,10 @@
 
 namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
+use Btafoya\MixpostApi\Http\Resources\TagResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inovector\Mixpost\Models\Tag;
-use Btafoya\MixpostApi\Http\Resources\TagResource;
 
 class TagsController extends ApiController
 {
@@ -46,7 +46,7 @@ class TagsController extends ApiController
     public function update(Request $request, int $id): JsonResponse
     {
         $request->validate([
-            'name' => 'sometimes|string|max:255|unique:mixpost_tags,name,' . $id,
+            'name' => 'sometimes|string|max:255|unique:mixpost_tags,name,'.$id,
             'hex_color' => 'nullable|string|regex:/^#[0-9A-F]{6}$/i',
         ]);
 
@@ -69,7 +69,7 @@ class TagsController extends ApiController
         $tag->delete();
 
         return response()->json([
-            'message' => 'Tag deleted successfully'
+            'message' => 'Tag deleted successfully',
         ]);
     }
 }

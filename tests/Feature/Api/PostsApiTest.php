@@ -2,12 +2,12 @@
 
 namespace Btafoya\MixpostApi\Tests\Feature\Api;
 
+use Btafoya\MixpostApi\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inovector\Mixpost\Enums\PostStatus;
 use Inovector\Mixpost\Models\Account;
 use Inovector\Mixpost\Models\Post;
 use Inovector\Mixpost\Models\Tag;
-use Btafoya\MixpostApi\Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
 class PostsApiTest extends TestCase
@@ -42,7 +42,7 @@ class PostsApiTest extends TestCase
                         'published_at',
                         'created_at',
                         'updated_at',
-                    ]
+                    ],
                 ],
                 'links',
                 'meta',
@@ -76,17 +76,17 @@ class PostsApiTest extends TestCase
                     'content' => [
                         [
                             'body' => 'Test post content',
-                            'media' => []
-                        ]
-                    ]
-                ]
-            ]
+                            'media' => [],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'data' => ['id', 'uuid'],
-                'message'
+                'message',
             ]);
 
         $this->assertDatabaseHas('mixpost_posts', [
@@ -109,11 +109,11 @@ class PostsApiTest extends TestCase
                     'content' => [
                         [
                             'body' => 'Updated post content',
-                            'media' => []
-                        ]
-                    ]
-                ]
-            ]
+                            'media' => [],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $response->assertStatus(200)
@@ -244,6 +244,7 @@ class PostsApiTest extends TestCase
     protected function createUser()
     {
         $userModel = config('auth.providers.users.model');
+
         return $userModel::factory()->create();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Btafoya\MixpostApi\Providers;
 
+use Btafoya\MixpostApi\Http\Middleware\EnforceHttps;
+use Btafoya\MixpostApi\Http\Middleware\ValidateApiToken;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Btafoya\MixpostApi\Http\Middleware\EnforceHttps;
-use Btafoya\MixpostApi\Http\Middleware\ValidateApiToken;
 
 class MixpostApiServiceProvider extends ServiceProvider
 {
