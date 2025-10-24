@@ -35,7 +35,6 @@ class MediaApiTest extends TestCase
                 'data' => [
                     '*' => [
                         'id',
-                        'uuid',
                         'name',
                         'mime_type',
                         'size',
@@ -72,7 +71,7 @@ class MediaApiTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'data' => ['id', 'uuid', 'name'],
+                'data' => ['id', 'name'],
                 'message',
             ]);
 

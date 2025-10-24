@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Inovector\Mixpost\MediaConversions\MediaImageResizeConversion;
 use Inovector\Mixpost\Models\Media;
-use Inovector\Mixpost\Support\MediaConversions;
 use Inovector\Mixpost\Support\MediaUploader;
 
 class MediaController extends ApiController
@@ -58,10 +58,17 @@ class MediaController extends ApiController
 
         $file = $request->file('file');
 
-        $media = MediaUploader::fromFile($file)
-            ->path(now()->format('Y/m'))
-            ->conversions(MediaConversions::get($file))
-            ->uploadAndInsert();
+        $uploader = MediaUploader::fromFile($file)
+            ->path(now()->format('Y/m'));
+
+        // Only add conversions if image processing is available (not in test env)
+        if (app()->bound('image')) {
+            $uploader->conversions([
+                MediaImageResizeConversion::name('thumb')->width(430),
+            ]);
+        }
+
+        $media = $uploader->uploadAndInsert();
 
         return (new MediaResource($media))
             ->additional(['message' => 'Media uploaded successfully'])
@@ -117,10 +124,17 @@ class MediaController extends ApiController
             );
 
             // Upload using MediaUploader
-            $media = MediaUploader::fromFile($uploadedFile)
-                ->path(now()->format('Y/m'))
-                ->conversions(MediaConversions::get($uploadedFile))
-                ->uploadAndInsert();
+            $uploader = MediaUploader::fromFile($uploadedFile)
+                ->path(now()->format('Y/m'));
+
+            // Only add conversions if image processing is available (not in test env)
+            if (app()->bound('image')) {
+                $uploader->conversions([
+                    MediaImageResizeConversion::name('thumb')->width(430),
+                ]);
+            }
+
+            $media = $uploader->uploadAndInsert();
 
             // Clean up temp file
             @unlink($tempPath);
@@ -161,10 +175,10 @@ class MediaController extends ApiController
     {
         $request->validate([
             'media' => 'required|array|min:1',
-            'media.*' => 'required|string',
+            'media.*' => 'required|integer',
         ]);
 
-        $mediaItems = Media::whereIn('uuid', $request->media)->get();
+        $mediaItems = Media::whereIn('id', $request->media)->get();
 
         $deletedCount = 0;
 

@@ -31,7 +31,6 @@ class AccountsApiTest extends TestCase
                 'data' => [
                     '*' => [
                         'id',
-                        'uuid',
                         'name',
                         'username',
                         'provider',
@@ -48,11 +47,11 @@ class AccountsApiTest extends TestCase
     {
         $account = Account::factory()->create();
 
-        $response = $this->getJson("/api/mixpost/accounts/{$account->uuid}");
+        $response = $this->getJson("/api/mixpost/accounts/{$account->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'uuid' => $account->uuid,
+                'id' => $account->id,
                 'name' => $account->name,
             ]);
     }

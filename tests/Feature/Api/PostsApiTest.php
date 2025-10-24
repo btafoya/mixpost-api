@@ -35,7 +35,6 @@ class PostsApiTest extends TestCase
                 'data' => [
                     '*' => [
                         'id',
-                        'uuid',
                         'status',
                         'schedule_status',
                         'scheduled_at',
@@ -58,7 +57,7 @@ class PostsApiTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'uuid' => $post->id,
+                'id' => $post->id,
             ]);
     }
 
@@ -72,7 +71,7 @@ class PostsApiTest extends TestCase
             'versions' => [
                 [
                     'is_original' => true,
-                    'account_id' => null,
+                    'account_id' => $account->id,
                     'content' => [
                         [
                             'body' => 'Test post content',
@@ -85,7 +84,7 @@ class PostsApiTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'data' => ['id', 'uuid'],
+                'data' => ['id'],
                 'message',
             ]);
 
@@ -97,7 +96,9 @@ class PostsApiTest extends TestCase
     /** @test */
     public function it_can_update_a_post()
     {
-        $post = Post::factory()->create();
+        $post = Post::factory()->create([
+            'status' => PostStatus::DRAFT,
+        ]);
         $account = Account::factory()->create();
 
         $response = $this->putJson("/api/mixpost/posts/{$post->id}", [
@@ -105,7 +106,7 @@ class PostsApiTest extends TestCase
             'versions' => [
                 [
                     'is_original' => true,
-                    'account_id' => null,
+                    'account_id' => $account->id,
                     'content' => [
                         [
                             'body' => 'Updated post content',

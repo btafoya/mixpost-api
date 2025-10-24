@@ -17,11 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Debug route to verify routing is working
-Route::any('debug-route', function () {
-    return response()->json(['message' => 'Routes are loading correctly']);
-});
-
 // Apply HTTPS middleware to all routes
 Route::middleware(['mixpost.https'])->group(function () {
 
@@ -31,8 +26,8 @@ Route::middleware(['mixpost.https'])->group(function () {
 
         Route::middleware(['auth:sanctum', 'mixpost.token'])->group(function () {
             Route::get('tokens', [TokenController::class, 'index'])->name('tokens.index');
-            Route::delete('tokens/{id}', [TokenController::class, 'destroy'])->name('tokens.destroy');
             Route::delete('tokens/current', [TokenController::class, 'destroyCurrent'])->name('tokens.current.destroy');
+            Route::delete('tokens/{id}', [TokenController::class, 'destroy'])->name('tokens.destroy');
         });
     });
 

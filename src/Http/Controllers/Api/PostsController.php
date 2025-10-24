@@ -2,13 +2,13 @@
 
 namespace Btafoya\MixpostApi\Http\Controllers\Api;
 
+use Btafoya\MixpostApi\Http\Requests\StorePostRequest;
+use Btafoya\MixpostApi\Http\Requests\UpdatePostRequest;
 use Btafoya\MixpostApi\Http\Resources\PostResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inovector\Mixpost\Builders\PostQuery;
 use Inovector\Mixpost\Enums\PostStatus;
-use Inovector\Mixpost\Http\Requests\StorePost;
-use Inovector\Mixpost\Http\Requests\UpdatePost;
 use Inovector\Mixpost\Models\Post;
 use Inovector\Mixpost\Util;
 
@@ -33,12 +33,11 @@ class PostsController extends ApiController
     }
 
     /**
-     * Get a single post by UUID
+     * Get a single post
      */
     public function show(int $id): JsonResponse
     {
-        $post = Post::with(['accounts', 'versions', 'tags'])
-            ->findOrFail($id);
+        $post = Post::with(['accounts', 'versions', 'tags'])->findOrFail($id);
 
         return (new PostResource($post))->response();
     }
@@ -46,7 +45,7 @@ class PostsController extends ApiController
     /**
      * Create a new post
      */
-    public function store(StorePost $request): JsonResponse
+    public function store(StorePostRequest $request): JsonResponse
     {
         $post = $request->handle();
         $post->load(['accounts', 'versions', 'tags']);
@@ -60,13 +59,9 @@ class PostsController extends ApiController
     /**
      * Update an existing post
      */
-    public function update(UpdatePost $request, int $id): JsonResponse
+    public function update(UpdatePostRequest $request, int $id): JsonResponse
     {
-        $post = Post::findOrFail($id);
-
-        // Set the post on the request for validation
-        $request->post = $post;
-
+        // UpdatePostRequest handles the post lookup via route('id')
         $post = $request->handle();
         $post->load(['accounts', 'versions', 'tags']);
 
@@ -111,8 +106,7 @@ class PostsController extends ApiController
             'time' => 'required|date_format:H:i',
         ]);
 
-        $post = Post::with(['accounts', 'versions', 'tags'])
-            ->findOrFail($id);
+        $post = Post::with(['accounts', 'versions', 'tags'])->findOrFail($id);
 
         if ($post->isInHistory()) {
             return response()->json([
@@ -139,8 +133,7 @@ class PostsController extends ApiController
      */
     public function publish(int $id): JsonResponse
     {
-        $post = Post::with(['accounts', 'versions', 'tags'])
-            ->findOrFail($id);
+        $post = Post::with(['accounts', 'versions', 'tags'])->findOrFail($id);
 
         if ($post->isInHistory()) {
             return response()->json([
@@ -194,7 +187,8 @@ class PostsController extends ApiController
             ])->toArray()
         );
 
-        $newPost->load(['accounts', 'versions', 'tags']);
+        // Refresh to get all attributes including schedule_status
+        $newPost = $newPost->fresh(['accounts', 'versions', 'tags']);
 
         return (new PostResource($newPost))
             ->additional(['message' => 'Post duplicated successfully'])

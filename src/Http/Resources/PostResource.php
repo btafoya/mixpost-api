@@ -10,7 +10,6 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'uuid' => $this->uuid,
             'status' => $this->status->value,
             'schedule_status' => $this->schedule_status->value,
             'scheduled_at' => $this->scheduled_at?->toIso8601String(),
