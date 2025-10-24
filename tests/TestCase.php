@@ -16,11 +16,41 @@ abstract class TestCase extends Orchestra
 
         // Disable mass assignment protection for tests
         \Illuminate\Database\Eloquent\Model::unguard();
+    }
 
-        // Run migrations
+    /**
+     * Define database migrations.
+     */
+    protected function defineDatabaseMigrations(): void
+    {
+        // Load Laravel default migrations (users table)
         $this->loadLaravelMigrations();
-        $this->loadMigrationsFrom(__DIR__.'/../vendor/inovector/mixpost/database/migrations');
+
+        // Load Sanctum migrations
         $this->loadMigrationsFrom(__DIR__.'/../vendor/laravel/sanctum/database/migrations');
+
+        // Load Mixpost stub migrations
+        $this->loadMixpostMigrations();
+    }
+
+    /**
+     * Load Mixpost stub migrations.
+     */
+    protected function loadMixpostMigrations(): void
+    {
+        $migrationPath = __DIR__.'/../vendor/inovector/mixpost/database/migrations';
+        $stubs = glob($migrationPath.'/*.stub');
+
+        // Sort migrations to ensure proper order
+        sort($stubs);
+
+        foreach ($stubs as $stub) {
+            // Include the migration file which returns an anonymous class instance
+            $migration = include $stub;
+
+            // Run the up() method
+            $migration->up();
+        }
     }
 
     /**
@@ -40,6 +70,9 @@ abstract class TestCase extends Orchestra
      */
     protected function defineEnvironment($app): void
     {
+        // Set application key for encryption
+        $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
+
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [

@@ -17,7 +17,7 @@
   "authors": [
     {
       "name": "Brian Tafoya",
-      "email": "btafoya@tafoya.net",
+      "email": "btafoya@briantafoya.com",
       "role": "Developer"
     }
   ],
@@ -41,7 +41,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Btafoya\\MixpostApi\\Tests\\": "tests/"
+      "Btafoya\\MixpostApi\\Tests\\": "tests/",
+      "Database\\Factories\\": "tests/database/factories/"
     }
   },
   "scripts": {
