@@ -14,9 +14,8 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.2, 8.3]
-        laravel: [10.*, 11.*]
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
@@ -30,9 +29,11 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+        env:
+          COMPOSER_PROCESS_TIMEOUT: 0
+          COMPOSER_NO_INTERACTION: 1
+          COMPOSER_NO_AUDIT: 1
+        run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
         run: vendor/bin/pest

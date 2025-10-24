@@ -23,15 +23,15 @@
   ],
   "require": {
     "php": "^8.2",
-    "illuminate/contracts": "^10.47|^11.0|^12.0",
-    "laravel/sanctum": "^3.0|^4.0",
-    "inovector/mixpost": "^1.0"
+    "illuminate/contracts": "^10.47|^11.0",
+    "laravel/sanctum": "^3.0|^4.0"
   },
   "require-dev": {
-    "orchestra/testbench": "^9.0|^10.0",
-    "pestphp/pest": "^2.34|^3.0",
-    "pestphp/pest-plugin-laravel": "^2.0|^3.0",
-    "phpunit/phpunit": "^10.5|^11.0",
+    "inovector/mixpost": "^1.0",
+    "orchestra/testbench": "^8.0|^9.0",
+    "pestphp/pest": "^2.34",
+    "pestphp/pest-plugin-laravel": "^2.0",
+    "phpunit/phpunit": "^10.5",
     "laravel/pint": "^1.0"
   },
   "autoload": {
