@@ -13,7 +13,7 @@ class ValidateApiToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unauthenticated. Please provide a valid API token.',
@@ -34,7 +34,7 @@ class ValidateApiToken
         if (config('mixpost-api.token.abilities_enabled', true)) {
             $requiredAbility = $request->route()->getName();
 
-            if ($requiredAbility && !$request->user()->tokenCan('*') && !$request->user()->tokenCan($requiredAbility)) {
+            if ($requiredAbility && ! $request->user()->tokenCan('*') && ! $request->user()->tokenCan($requiredAbility)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'This token does not have the required permissions',

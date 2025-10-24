@@ -2,9 +2,9 @@
 
 namespace Inovector\MixpostApi\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 use Inovector\MixpostApi\Http\Middleware\EnforceHttps;
 use Inovector\MixpostApi\Http\Middleware\ValidateApiToken;
 

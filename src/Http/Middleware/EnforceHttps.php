@@ -13,11 +13,11 @@ class EnforceHttps
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!config('mixpost-api.security.https_only', false)) {
+        if (! config('mixpost-api.security.https_only', false)) {
             return $next($request);
         }
 
-        if (!$request->secure() && app()->environment('production')) {
+        if (! $request->secure() && app()->environment('production')) {
             return response()->json([
                 'success' => false,
                 'message' => 'HTTPS is required for API requests',

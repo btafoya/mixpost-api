@@ -14,7 +14,7 @@ class ApiController extends Controller
     /**
      * Return a success response.
      */
-    protected function success(mixed $data = null, string $message = null, int $status = 200): JsonResponse
+    protected function success(mixed $data = null, ?string $message = null, int $status = 200): JsonResponse
     {
         $response = ['success' => true];
 
@@ -32,7 +32,7 @@ class ApiController extends Controller
     /**
      * Return a created response.
      */
-    protected function created(mixed $data = null, string $message = 'Resource created successfully'): JsonResponse
+    protected function created(mixed $data = null, ?string $message = 'Resource created successfully'): JsonResponse
     {
         return $this->success($data, $message, 201);
     }

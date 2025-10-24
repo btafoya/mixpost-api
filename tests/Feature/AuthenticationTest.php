@@ -3,7 +3,6 @@
 namespace Inovector\MixpostApi\Tests\Feature;
 
 use Inovector\MixpostApi\Tests\TestCase;
-use Laravel\Sanctum\Sanctum;
 
 class AuthenticationTest extends TestCase
 {
@@ -224,7 +223,7 @@ class AuthenticationTest extends TestCase
     /**
      * Helper method to make authenticated requests with a token.
      */
-    protected function withToken(string $token): self
+    public function withToken(string $token): self
     {
         return $this->withHeader('Authorization', "Bearer {$token}");
     }

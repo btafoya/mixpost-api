@@ -20,7 +20,7 @@ class TokenController extends ApiController
         $userModel = config('mixpost.user_model', \Inovector\Mixpost\Models\User::class);
         $user = $userModel::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
@@ -75,7 +75,7 @@ class TokenController extends ApiController
     {
         $token = $request->user()->tokens()->where('id', $id)->first();
 
-        if (!$token) {
+        if (! $token) {
             return $this->notFound('Token not found');
         }
 
@@ -99,9 +99,9 @@ class TokenController extends ApiController
      */
     protected function getExpirationDate(?string $expiresAt): ?\DateTime
     {
-        if (!$expiresAt) {
+        if (! $expiresAt) {
             $configExpiration = config('mixpost-api.token.expiration');
-            if (!$configExpiration) {
+            if (! $configExpiration) {
                 return null;
             }
             return now()->addMinutes($configExpiration);
